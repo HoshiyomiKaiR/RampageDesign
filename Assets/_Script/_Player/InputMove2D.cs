@@ -85,4 +85,13 @@ public class InputMove2D : MonoBehaviour
 
         reverseAndWaitResetPlatformIE_ = null;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(1, 0, 0, 0.5f);
+        Gizmos.matrix = Matrix4x4.TRS(jumpOverlapPoint_.position, jumpOverlapPoint_.rotation, jumpOverlapSize_);
+        Gizmos.DrawCube(Vector3.zero, Vector3.one);
+    }
 }
+
+
