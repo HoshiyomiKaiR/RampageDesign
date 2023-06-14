@@ -24,7 +24,7 @@ public class InputMove2D : MonoBehaviour
 
     const float POSITIVE_PLATFORM_EFFECTOR_ANGLE = 0;
     const float NEGATIVE_PLATFORM_EFFECTOR_ANGLE = 180;
-    const float RESET_PLATFORM_EFFECTOR_OFFSET = 2;
+    const float RESET_PLATFORM_EFFECTOR_OFFSET = 1.5f;
 
     readonly Vector3 ORIGIN_ROT = Vector3.zero;
     readonly Vector3 FLIP_ROT = new(0, 180, 0);
@@ -38,7 +38,7 @@ public class InputMove2D : MonoBehaviour
     {
         inSky_ = !Physics2D.OverlapBox(jumpOverlapPoint_.position, jumpOverlapSize_, jumpOverlapPoint_.eulerAngles.z, jumpMask_);
 
-        selfRigid2D_.velocity = new(moveAxis_ * moveSpd_, selfRigid2D_.velocity.y);    //moveAxis_ * moveSpd_ * transform.right + selfRigid2D_.velocity.y * Vector3.up;
+        selfRigid2D_.velocity = moveAxis_ * moveSpd_ * Vector2.right + selfRigid2D_.velocity.y * Vector2.up;
     }
 
     public void MoveInput(InputAction.CallbackContext callbackContext_)
@@ -65,8 +65,8 @@ public class InputMove2D : MonoBehaviour
     {
         if (callbackContext_.performed && !inSky_)
         {
-            RaycastHit2D raycastHit2D_ = Physics2D.Raycast(jumpOverlapPoint_.position, Vector2.down, Mathf.Infinity, jumpMask_);
-            PlatformEffector2D getPlatformEffector2D_ = raycastHit2D_.collider.GetComponent<PlatformEffector2D>();
+            Collider2D getCollider2D_ = Physics2D.OverlapBox(jumpOverlapPoint_.position, jumpOverlapSize_, jumpOverlapPoint_.eulerAngles.z, jumpMask_);
+            PlatformEffector2D getPlatformEffector2D_ = getCollider2D_.GetComponent<PlatformEffector2D>();
             if (getPlatformEffector2D_ != null && reverseAndWaitResetPlatformIE_ == null)
             {
                 reverseAndWaitResetPlatformIE_ = StartCoroutine(reverseAndWaitResetPlatform(getPlatformEffector2D_));
@@ -88,9 +88,9 @@ public class InputMove2D : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(1, 0, 0, 0.5f);
-        Gizmos.matrix = Matrix4x4.TRS(jumpOverlapPoint_.position, jumpOverlapPoint_.rotation, jumpOverlapSize_);
-        Gizmos.DrawCube(Vector3.zero, Vector3.one);
+        //Gizmos.color = new Color(1, 0, 0, 0.5f);
+        //Gizmos.matrix = Matrix4x4.TRS(jumpOverlapPoint_.position, jumpOverlapPoint_.rotation, jumpOverlapSize_);
+        //Gizmos.DrawCube(Vector3.zero, Vector3.one);
     }
 }
 

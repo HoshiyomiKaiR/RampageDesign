@@ -8,6 +8,15 @@ public class CloudFall : MonoBehaviour
     [SerializeField] float stopPointOffset_;
     [SerializeField] LayerMask groundMask_;
 
+    Collider2D selfCollider2D_;
+    SpriteRenderer selfSpriteRenderer_;
+
+    void Start()
+    {
+        selfCollider2D_ = GetComponent<Collider2D>();
+        selfSpriteRenderer_ = GetComponent<SpriteRenderer>();
+    }
+
     public void StartFall()
     {
         StartCoroutine(nameof(fallToGround));
@@ -21,5 +30,8 @@ public class CloudFall : MonoBehaviour
             transform.Translate(spd_ * Time.deltaTime * Vector2.down);
             yield return new WaitUpdateAndNotPause();
         }
+        selfCollider2D_.enabled = false;
+        selfSpriteRenderer_.enabled = false;
+
     }
 }

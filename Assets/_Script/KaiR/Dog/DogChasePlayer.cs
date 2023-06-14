@@ -19,8 +19,8 @@ public class DogChasePlayer : MonoBehaviour
 
     Rigidbody2D selfRigid2D_;
 
-    readonly Vector3 ORIGIN_ROT = Vector3.zero;
-    readonly Vector3 FLIP_ROT = new(0, 180, 0);
+    readonly Vector3 ORIGIN_ROT = new(0, 180, 0);
+    readonly Vector3 FLIP_ROT = Vector3.zero;
 
     void Start()
     {
@@ -49,7 +49,7 @@ public class DogChasePlayer : MonoBehaviour
                 transform.eulerAngles = ORIGIN_ROT;
             }
 
-            selfRigid2D_.velocity = moveSpd_ * transform.right + selfRigid2D_.velocity.y * Vector3.up;
+            selfRigid2D_.velocity = moveSpd_ * -transform.right;
 
             duration_ += Time.deltaTime;
             yield return new WaitUpdateAndNotPause();
@@ -69,7 +69,7 @@ public class DogChasePlayer : MonoBehaviour
                 transform.eulerAngles = ORIGIN_ROT;
             }
 
-            selfRigid2D_.velocity = dashSpd_ * transform.right + selfRigid2D_.velocity.y * Vector3.up;
+            selfRigid2D_.velocity = dashSpd_ * -transform.right;
             yield return new WaitUpdateAndNotPause();
         }
     }
